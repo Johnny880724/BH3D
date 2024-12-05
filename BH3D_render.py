@@ -114,7 +114,7 @@ def interpolate_array(array, new_size):
 
 # Initial conditions
 box_size = 20*rs
-image_width, image_height = 400,300
+image_width, image_height = 800,600
 
 pixel_to_unit = 0.01 / image_width
 pixely_arr = np.linspace(-image_width / 2, image_width / 2, image_width)
@@ -268,7 +268,8 @@ star_mask = np.any(hit_star_all,axis=-1)
 
 print("Step 3: Stars hit cleared")
 
-plt.figure(figsize=(40,30))
+fig = plt.figure(figsize=(14.5,9))
+ax = fig.gca()
 
 final_color = np.zeros((image_width,image_height,3))
 NS_color_dark     = np.array([60, 90, 255])/255
@@ -281,10 +282,17 @@ final_color = NS_color_bright * NS_intensity[...,None] * NS_mask[...,None] \
             + star_color * star_mask[...,None] * sky_mask[...,None] 
 
 image = np.transpose(final_color, (1, 0, 2))
-plt.imshow(np.clip(image, 0, 1))
+ax.imshow(np.clip(image, 0, 1))
+ax.set_xticks([])
+ax.set_yticks([])
+ax.set_xticklabels([])
+ax.set_yticklabels([])
+ax.set_title('')
+ax.axis('off')
 plt.subplots_adjust(left=0, right=1, top=1, bottom=0, wspace=0, hspace=0)
+import os
+fig.savefig(os.getcwd()+"/bh3d_local.png",bbox_inches='tight',pad_inches=0)
 
-plt.savefig("bh3d.png",bbox_inches='tight')
 print("Step 4: Image saved")
 end_time = time.time()
 print("time elapsed %f sec" % (end_time - start_time))
